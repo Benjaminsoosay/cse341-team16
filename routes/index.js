@@ -1,5 +1,7 @@
 const router = require('express').Router();
 
+router.use('/', require('./swagger'));
+
 router.get('/', (req, res) => {
     res.send('Hello World');
 });
@@ -16,10 +18,10 @@ router.use('/events', require('./events'));
 // Organizations
 // router.use('/organizations', require('./organizations'));
 
-// Comments
-router.use('/', require('./comments'));
-
 // RSVPs
 router.use('/', require('./rsvps'));
+
+// Comments
+// router.use('/', require('./comments'));
 
 module.exports = router;
