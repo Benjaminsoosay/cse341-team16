@@ -4,6 +4,9 @@ router.get('/', (req, res) => {
     res.send('Hello World');
 });
 
+// Auth
+router.use('/auth', require('./auth'));
+
 // Users
 // router.use('/users', require('./users'));
 
