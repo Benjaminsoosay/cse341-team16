@@ -5,11 +5,11 @@
     "description": "This API was created by Team 16 to manage events.",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
-  "basePath": "/",
-  "schemes": [
-    "http",
-    "https"
+  "servers": [
+    {
+      "url": "/",
+      "description": "Current server"
+    }
   ],
   "paths": {
     "/": {
