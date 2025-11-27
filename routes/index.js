@@ -15,6 +15,9 @@ router.use('/auth', require('./auth'));
 // Events
 router.use('/events', require('./events'));
 
+// Locations
+router.use('/locations', require('./locations'));
+
 // Organizations
 // router.use('/organizations', require('./organizations'));
 
