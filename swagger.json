@@ -5,11 +5,10 @@
     "description": "This API was created by Team 16 to manage events.",
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "/",
-      "description": "Current server"
-    }
+  "host": "cse341-team16.onrender.com",
+  "basePath": "/",
+  "schemes": [
+    "https"
   ],
   "paths": {
     "/": {
@@ -28,6 +27,46 @@
         "responses": {
           "default": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/failure": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/success": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -181,6 +220,178 @@
       "delete": {
         "tags": [
           "Events"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/organizations/": {
+      "get": {
+        "tags": [
+          "Organizations"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Organizations"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "phone": {
+                  "example": "any"
+                },
+                "website": {
+                  "example": "any"
+                },
+                "createdBy": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/organizations/{id}": {
+      "get": {
+        "tags": [
+          "Organizations"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Organizations"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "any"
+                },
+                "description": {
+                  "example": "any"
+                },
+                "address": {
+                  "example": "any"
+                },
+                "email": {
+                  "example": "any"
+                },
+                "phone": {
+                  "example": "any"
+                },
+                "website": {
+                  "example": "any"
+                },
+                "createdBy": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Organizations"
         ],
         "description": "",
         "parameters": [
@@ -381,97 +592,185 @@
         }
       }
     },
-    
-    "/comments": {
-  "get": {
-    "tags": ["Comments"],
-    "description": "Get all comments",
-    "responses": {
-      "200": { "description": "OK" },
-      "500": { "description": "Internal Server Error" }
-    }
-  },
-  "post": {
-    "tags": ["Comments"],
-    "description": "Create a new comment",
-    "parameters": [
-      {
-        "name": "body",
-        "in": "body",
-        "required": true,
-        "schema": {
-          "type": "object",
-          "properties": {
-            "userId": { "example": "675a3bd91c4e45d3a8d2f116" },
-            "userName": { "example": "Daniel Rivera" },
-            "eventId": { "example": "6781f0b48e9c55a5b23c9310" },
-            "content": { "example": "Let me know if I can help with anything before the event." }
+        "/locations": {
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "description": "Get all locations",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Locations"
+        ],
+        "description": "Create a new location",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "Calgary Ballroom"
+                },
+                "type": {
+                  "example": "hall"
+                },
+                "address": {
+                  "example": "100 Main Street SE"
+                },
+                "city": {
+                  "example": "Calgary"
+                },
+                "stateOrProvince": {
+                  "example": "AB"
+                },
+                "country": {
+                  "example": "Canada"
+                },
+                "recommendedFor": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "wedding"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
-    ],
-    "responses": {
-      "201": { "description": "Created" },
-      "400": { "description": "Bad Request" },
-      "500": { "description": "Internal Server Error" }
-    }
-  }
-},
-"/comments/{id}": {
-  "get": {
-    "tags": ["Comments"],
-    "description": "Get a single comment by ID",
-    "parameters": [
-      { "name": "id", "in": "path", "required": true, "type": "string" }
-    ],
-    "responses": {
-      "200": { "description": "OK" },
-      "404": { "description": "Not Found" },
-      "500": { "description": "Internal Server Error" }
-    }
-  },
-  "put": {
-    "tags": ["Comments"],
-    "description": "Update a comment by ID",
-    "parameters": [
-      { "name": "id", "in": "path", "required": true, "type": "string" },
-      {
-        "name": "body",
-        "in": "body",
-        "required": true,
-        "schema": {
-          "type": "object",
-          "properties": {
-            "userId": { "example": "675a3bd91c4e45d3a8d2f116" },
-            "userName": { "example": "Daniel Rivera" },
-            "eventId": { "example": "6781f0b48e9c55a5b23c9310" },
-            "content": { "example": "Updated comment content." }
+    },
+    "/locations/{id}": {
+      "get": {
+        "tags": [
+          "Locations"
+        ],
+        "description": "Get a single location by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Locations"
+        ],
+        "description": "Update a location by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "example": "Calgary Ballroom"
+                },
+                "type": {
+                  "example": "hall"
+                },
+                "address": {
+                  "example": "100 Main Street SE"
+                },
+                "city": {
+                  "example": "Calgary"
+                },
+                "stateOrProvince": {
+                  "example": "AB"
+                },
+                "country": {
+                  "example": "Canada"
+                },
+                "recommendedFor": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "wedding"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Locations"
+        ],
+        "description": "Delete a location by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
-    ],
-    "responses": {
-      "200": { "description": "OK" },
-      "400": { "description": "Bad Request" },
-      "404": { "description": "Not Found" },
-      "500": { "description": "Internal Server Error" }
-    }
-  },
-  "delete": {
-    "tags": ["Comments"],
-    "description": "Delete a comment by ID",
-    "parameters": [
-      { "name": "id", "in": "path", "required": true, "type": "string" }
-    ],
-    "responses": {
-      "204": { "description": "No Content" },
-      "404": { "description": "Not Found" },
-      "500": { "description": "Internal Server Error" }
     }
   }
-}
-
-    
-  }
-  
 }
