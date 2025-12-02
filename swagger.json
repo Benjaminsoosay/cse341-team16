@@ -2,17 +2,14 @@
   "swagger": "2.0",
   "info": {
     "title": "Team 16's API",
-    "description": "This API was created by Team 16 to manage events.",
+    "description": "This API was created by Team 16 to manage events.<br><br><a href='/auth/google'>🔐 Log In with Google</a><br><a href='/auth/logout'>🚪 Log Out</a>",
     "version": "1.0.0"
-  },
-  "host": "cse341-team16.onrender.com",
-  "basePath": "/",
-  "schemes": [
-    "https"
-  ],
+  },  
+  "basePath": "/",    
   "paths": {
     "/": {
       "get": {
+        "tags": ["Meta"],
         "description": "",
         "responses": {
           "200": {
@@ -23,6 +20,7 @@
     },
     "/api-docs": {
       "get": {
+        "tags": ["Meta"],
         "description": "",
         "responses": {
           "default": {
@@ -33,16 +31,25 @@
     },
     "/auth/google": {
       "get": {
-        "description": "",
+        "tags": ["Auth"],
+        "description": "<a href='/auth/google'> Click here to Log In with Google</a>",
         "responses": {
-          "default": {
-            "description": ""
-          }
+          "200": { "description": "OK" }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": ["Auth"],
+        "description": "<a href='/auth/logout'>🚪 Click here to Log Out</a>",
+        "responses": {
+          "200": { "description": "Logged Out" }
         }
       }
     },
     "/auth/google/callback": {
       "get": {
+        "tags": ["Auth"],
         "description": "",
         "responses": {
           "default": {
@@ -53,6 +60,7 @@
     },
     "/auth/failure": {
       "get": {
+        "tags": ["Auth"],
         "description": "",
         "responses": {
           "200": {
@@ -63,6 +71,7 @@
     },
     "/auth/success": {
       "get": {
+        "tags": ["Auth"],
         "description": "",
         "responses": {
           "200": {
@@ -592,7 +601,7 @@
         }
       }
     },
-        "/locations": {
+    "/locations": {
       "get": {
         "tags": [
           "Locations"
@@ -611,7 +620,7 @@
         "tags": [
           "Locations"
         ],
-        "description": "Create a new location",
+        "description": "Protected: Create a new location (requires Google OAuth login via /auth/google).",        
         "parameters": [
           {
             "name": "body",
@@ -654,7 +663,9 @@
           },
           "400": {
             "description": "Bad Request"
-          }
+          },
+          "401": { 
+            "description": "Unauthorized - Please log in via Google OAuth" }
         }
       }
     },
@@ -675,7 +686,7 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
+          },          
           "404": {
             "description": "Not Found"
           },
@@ -688,7 +699,7 @@
         "tags": [
           "Locations"
         ],
-        "description": "Update a location by ID",
+        "description": "Protected: Update a location by ID (requires Google OAuth login via /auth/google).",        
         "parameters": [
           {
             "name": "id",
@@ -738,6 +749,9 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": { 
+            "description": "Unauthorized - Please log in via Google OAuth" 
+          },
           "404": {
             "description": "Not Found"
           },
@@ -750,7 +764,7 @@
         "tags": [
           "Locations"
         ],
-        "description": "Delete a location by ID",
+        "description": "Protected: Delete a location by ID (requires Google OAuth login via /auth/google).",        
         "parameters": [
           {
             "name": "id",
