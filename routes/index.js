@@ -22,6 +22,6 @@ router.use('/organizations', require('./organizations'));
 router.use('/locations', require('./locations'));
 
 // Comments
-router.use('/', require('./comments'));
+router.use('/comments', require('./comments'));
 
 module.exports = router;
