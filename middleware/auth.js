@@ -1,11 +1,10 @@
-// middleware/auth.js - Rick Shaw
+// middleware/auth.js
 
 function ensureAuth(req, res, next) {
-    if (req.isAuthenticated && req.isAuthenticated()) {
-        return next();
-    }
-
-    return res.status(401).json({ message: "Unauthorized.  Please log in"});
+  if (req.isAuthenticated && req.isAuthenticated()) {
+    return next();
+  }
+  return res.status(401).json({ message: "Unauthorized. Please log in" });
 }
 
 module.exports = { ensureAuth };

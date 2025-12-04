@@ -1,22 +1,11 @@
-// config/passport.js
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const dotenv = require('dotenv');
+const User = require('../models/user'); // make sure this exists
 
-// load env vars
 dotenv.config();
 
-// load User model (now that it exists)
-let User;
-try {
-  User = require('../models/user');
-} catch (err) {
-  console.warn(
-    'User model not found yet. Remember to create models/user.js for OAuth users.'
-  );
-}
-
-// configure Google OAuth
+// Configure Google OAuth strategy
 passport.use(
   new GoogleStrategy(
     {
@@ -26,31 +15,14 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        if (!User) {
-          // if the User model doesn't exist yet, then I just return a small temp profile
-          return done(null, {
-            id: profile.id,
-            displayName: profile.displayName,
-            emails: profile.emails,
-          });
-        }
-
-        // find the existing user by Google ID and ...
         let user = await User.findOne({ googleId: profile.id });
 
-        // if not found, create a new one
         if (!user) {
           user = await User.create({
             googleId: profile.id,
             name: profile.displayName,
-            email:
-              profile.emails && profile.emails[0]
-                ? profile.emails[0].value
-                : null,
-            avatar:
-              profile.photos && profile.photos[0]
-                ? profile.photos[0].value
-                : null,
+            email: profile.emails?.[0]?.value || null,
+            avatar: profile.photos?.[0]?.value || null,
           });
         }
 
@@ -63,22 +35,16 @@ passport.use(
   )
 );
 
-// Store the user in the session
+// ✅ This is where you store only the user.id in the session
 passport.serializeUser((user, done) => {
-  if (user && user.id) {
-    return done(null, user.id);
-  }
-  done(null, user);
+  done(null, user.id);
 });
 
+// ✅ And this is where you fetch the full user back out of the DB
 passport.deserializeUser(async (id, done) => {
   try {
-    if (!User) {
-      return done(null, { id });
-    }
-
     const user = await User.findById(id);
-    return done(null, user);
+    done(null, user);
   } catch (err) {
     console.error('Error in deserializeUser:', err);
     done(err, null);
@@ -86,3 +52,4 @@ passport.deserializeUser(async (id, done) => {
 });
 
 module.exports = passport;
+

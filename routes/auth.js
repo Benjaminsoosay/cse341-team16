@@ -1,49 +1,18 @@
-const router = require('express').Router();
+const express = require('express');
 const passport = require('passport');
+const router = express.Router();
 
-// *** OAuth login with Google ***
+// Start Google OAuth flow
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-// Route to initiate the Google OAuth login
+// Handle callback from Google
 router.get(
-    '/google',
-    passport.authenticate('google', { scope: ['profile', 'email'] })
+  '/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    // Successful authentication
+    res.redirect('/users'); // or wherever you want to send the user
+  }
 );
-
-// Google OAuth callback route
-router.get(
-    '/google/callback',
-    passport.authenticate('google', {
-        failureRedirect: '/auth/failure',
-        successRedirect: '/auth/success',
-    })
-);
-
-// logout
-router.get('/logout', (req, res, next) => {  
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-
-    // destroy the session so req.isAuthenticated() becomes false
-    if (req.session) {
-      req.session.destroy(() => {
-        res.send('You have been logged out from the app.');
-      });
-    } else {
-      res.send('You have been logged out from the app.');
-    }
-  });
-});
-
-// Failure route for testing
-router.get('/failure', (req, res) => {
-    res.send('Google Authentication Failed.');
-});
-
-// Success route for testing
-router.get('/success', (req, res) => {
-    res.send('Google Authentication Successful.');
-});
 
 module.exports = router;
